@@ -23,33 +23,30 @@ subtotals(ShoppingList) ->
 % [{onions,1.5},{tomatoes,1.18},{mushrooms,1.2}]
 
 % Expected cell values: x, o or e.
-tic_tac_toe_result({Tl, Tm, Tr, Ml, Mm, Mr, Bl, Bm, Br}) ->
-        Cells = [Tl, Tm, Tr, Ml, Mm, Mr, Bl, Bm, Br],
-
-        LCol = {Tl, Ml, Bl},
-        MCol = {Tm, Mm, Bm},
-        RCol = {Tr, Mr, Br},
-
-        TRow = {Tl, Tm, Tr},
-        MRow = {Ml, Mm, Mr},
-        BRow = {Bl, Bm, Br},
-
-        TlToBrDiag = {Tl, Mm, Br},
-        TrToBlDiag = {Tr, Mm, Bl},
-
-        Lines = [LCol, MCol, RCol, TRow, MRow, BRow, TlToBrDiag, TrToBlDiag],
-
-        XHasWon = lists:member({x, x, x}, Lines),
-        OHasWon = lists:member({o, o, o}, Lines),
-        CellsAreEmpty = lists:member(e, Cells),
-
-        if XHasWon ->
-                   x;
-           OHasWon ->
-                   o;
-           CellsAreEmpty ->
-                   no_winner;
-           true ->
-                   % Don't get why it's "cat", that's just what the exercise says...
-                   cat
+tic_tac_toe_result(Input) ->
+        case Input of
+                {A, A, A, _, _, _, _, _, _} ->
+                        A;
+                {_, _, _, A, A, A, _, _, _} ->
+                        A;
+                {_, _, _, _, _, _, A, A, A} ->
+                        A;
+                {A, _, _, A, _, _, A, _, _} ->
+                        A;
+                {_, A, _, _, A, _, _, A, _} ->
+                        A;
+                {_, _, A, _, _, A, _, _, A} ->
+                        A;
+                {A, _, _, _, A, _, _, _, A} ->
+                        A;
+                {_, _, A, _, A, _, A, _, _} ->
+                        A;
+                _ ->
+                        CellsAreEmpty = lists:member(e, tuple_to_list(Input)),
+                        if CellsAreEmpty ->
+                                   no_winner;
+                           true ->
+                                   % Don't get why it's "cat", that's just what the exercise says...
+                                   cat
+                        end
         end.
